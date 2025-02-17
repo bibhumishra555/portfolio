@@ -26,6 +26,26 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <!-- Adding visitor counter -->
+  <script type="module">
+ 
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-analytics.js";
+  
+  const firebaseConfig = {
+    apiKey: "AIzaSyCpTprWpjNxEEwXbogmKbaux9s7TBCFK3I",
+    authDomain: "counter-010.firebaseapp.com",
+    projectId: "counter-010",
+    storageBucket: "counter-010.firebasestorage.app",
+    messagingSenderId: "395088944227",
+    appId: "1:395088944227:web:5ec6066d389ec4eaa92c56",
+    measurementId: "G-4MJX2M82EJ"
+  };
+
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
 
 </head>
 
@@ -180,6 +200,7 @@
       </div>
 
     </section><!-- /Skills Section -->
+<p>Total Visitors: <span id="visitorCount">Loading...</span></p>
 
      <!-- Stats Section -->
      <section id="stats" class="stats section">
