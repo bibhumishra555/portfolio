@@ -27,25 +27,9 @@
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
   <!-- Adding visitor counter -->
-  <script type="module">
- 
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-analytics.js";
-  
-  const firebaseConfig = {
-    apiKey: "AIzaSyCpTprWpjNxEEwXbogmKbaux9s7TBCFK3I",
-    authDomain: "counter-010.firebaseapp.com",
-    projectId: "counter-010",
-    storageBucket: "counter-010.firebasestorage.app",
-    messagingSenderId: "395088944227",
-    appId: "1:395088944227:web:5ec6066d389ec4eaa92c56",
-    measurementId: "G-4MJX2M82EJ"
-  };
+ <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js"></script>
 
-
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
 
 </head>
 
@@ -200,7 +184,44 @@
       </div>
 
     </section><!-- /Skills Section -->
-<p>Total Visitors: <span id="visitorCount">Loading...</span></p>
+
+     <script>
+    // 🔥 Replace this with your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCpTprWpjNxEEwXbogmKbaux9s7TBCFK3I",
+      authDomain: "counter-010.firebaseapp.com",
+    projectId: "counter-010",
+    storageBucket: "counter-010.firebasestorage.app",
+    messagingSenderId: "395088944227",
+    appId: "1:395088944227:web:5ec6066d389ec4eaa92c56",
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    async function updateVisitorCount() {
+      const counterRef = db.collection("visitors").doc("count");
+
+      try {
+        await db.runTransaction(async (transaction) => {
+          const doc = await transaction.get(counterRef);
+          if (!doc.exists) {
+            transaction.set(counterRef, { count: 1 });
+            document.getElementById("visitorCount").innerText = "1";
+          } else {
+            const newCount = doc.data().count + 1;
+            transaction.update(counterRef, { count: newCount });
+            document.getElementById("visitorCount").innerText = newCount;
+          }
+        });
+      } catch (error) {
+        console.error("Error updating visitor count:", error);
+      }
+    }
+
+    // Call function on page load
+    window.onload = updateVisitorCount;
+  </script>
 
      <!-- Stats Section -->
      <section id="stats" class="stats section">
