@@ -1,3 +1,27 @@
+<script>
+  async function updateVisitorCount() {
+    const counterRef = db.collection("visitors").doc("count");
+
+    try {
+      await db.runTransaction(async (transaction) => {
+        const doc = await transaction.get(counterRef);
+        if (!doc.exists) {
+          transaction.set(counterRef, { count: 1 });
+          document.getElementById("visitorCount").innerText = "1";
+        } else {
+          const newCount = doc.data().count + 1;
+          transaction.update(counterRef, { count: newCount });
+          document.getElementById("visitorCount").innerText = newCount;
+        }
+      });
+    } catch (error) {
+      console.error("Error updating visitor count:", error);
+    }
+  }
+
+  // Call function on page load
+  window.onload = updateVisitorCount;
+</script>
 
 
 (function() {
