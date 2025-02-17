@@ -1,4 +1,4 @@
-<script>
+
   async function updateVisitorCount() {
     const counterRef = db.collection("visitors").doc("count");
 
@@ -21,7 +21,7 @@
 
   // Call function on page load
   window.onload = updateVisitorCount;
-</script>
+
 
 
 (function() {
